@@ -1,15 +1,14 @@
-codeunit 50000 "DCADV Reset DC Demo Environment"
+codeunit 50000 "DCADV Reset DC Demo Setup"
 {
     // Codeunit, welches die CDC Demoumgebung zurücksetzen kann
 
     var
         FileInfo: Codeunit "CDC File Information";
         ClientSideFileSysMgt: Codeunit "CDC Client File Sys. Mgt.";
-        FileSystem: DotNet "Akeyto.DocumentCapture.Dynamics.Nav.Shared.FileSystem";
 
     trigger OnRun()
     var
-        DemoSetup: Record "CDC CKL Demo Setup";
+        DemoSetup: Record "DCADV DC Demo Setup";
     begin
         if not Confirm(Text001, false) then
             Error('Zurücksetzen wurde abgebrochen, es wurden keine Daten geändert!');
@@ -61,7 +60,7 @@ codeunit 50000 "DCADV Reset DC Demo Environment"
 
     local procedure DeleteEntries()
     var
-        DemoSetup: Record "CDC CKL Demo Setup";
+        DemoSetup: Record "DCADV DC Demo Setup";
         PurchaseHeader: Record "Purchase Header";
         PurchaseLine: Record "Purchase Line";
         PurchDocMatch: Record "CDC Purch. Doc. Match";
@@ -648,7 +647,7 @@ codeunit 50000 "DCADV Reset DC Demo Environment"
 
     local procedure CreateDemoSetup()
     var
-        DemoSetup: Record "CDC CKL Demo Setup";
+        DemoSetup: Record "DCADV DC Demo Setup";
         PurchRcptHeader: Record "Purch. Rcpt. Header";
         PurchInvHeader: Record "Purch. Inv. Header";
         PurchCrMemoHeader: Record "Purch. Cr. Memo Hdr.";
