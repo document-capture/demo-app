@@ -7,6 +7,8 @@ table 50000 "DCADV DC Demo Setup"
         {
             DataClassification = ToBeClassified;
         }
+
+        
         field(10; "Purch. Rcpt. Header No."; Code[20])
         {
             DataClassification = ToBeClassified;
