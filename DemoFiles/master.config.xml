@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Languages>
-    <Language>
-        <Code>de-de</Code>
-        <Description>Deutsch</Description>
-    </Language>
-    <Language>
-        <Code>en-en</Code>
-        <Description>Englisch</Description>
-    </Language>
+    <Language Code="de-de" Description="Deutsch" />
+    <Language Code="en-en" Description="Englisch" />
 </Languages>

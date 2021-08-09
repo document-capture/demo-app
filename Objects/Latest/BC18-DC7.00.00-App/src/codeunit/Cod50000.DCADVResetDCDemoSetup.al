@@ -1,11 +1,6 @@
 codeunit 50000 "DCADV Reset DC Demo Setup"
 {
     // Codeunit, welches die CDC Demoumgebung zurücksetzen kann
-
-    var
-        FileInfo: Codeunit "CDC File Information";
-        ClientSideFileSysMgt: Codeunit "CDC Client File Sys. Mgt.";
-
     trigger OnRun()
     var
         DemoSetup: Record "DCADV DC Demo Setup";
@@ -667,6 +662,8 @@ codeunit 50000 "DCADV Reset DC Demo Setup"
         Clear(DemoSetup);
         DemoSetup.Insert(true);
 
+        DemoSetup."Template Master  Path" := 'https://raw.githubusercontent.com/document-capture/demo-app/main/DemoFiles/master.config.xml';
+
         if PurchRcptHeader.FindLast then
             DemoSetup."Purch. Rcpt. Header No." := PurchRcptHeader."No.";
 
@@ -722,6 +719,30 @@ codeunit 50000 "DCADV Reset DC Demo Setup"
         AllProfile.Insert;
 
         Message('Ggf. müssen noch die Benutzer und das Genehmigungsverfahren eingerichtet werden!');
+    end;
+
+    procedure SelectDemoTemplateLanguage()
+    var
+        DemoSetup: Record "DCADV DC Demo Setup";
+        LanguageBuffer: Record Language temporary;
+        Http: Codeunit "CSC Http";
+
+        XmlDoc: Codeunit "CSC XML Document";
+        DocumentElement: Codeunit "CSC XML Node";
+        XmlNodes: Codeunit "CSC XML NodeList";
+        LanguageNode: Codeunit "CSC XML Node";
+        i: Integer;
+    begin
+        DemoSetup.Get();
+        DemoSetup.TestField("Template Master  Path");
+        if Http.ExecuteXmlDocRequest(DemoSetup."Template Master  Path", 2, true, XmlDoc) then begin
+            XmlDoc.GetDocumentElement(DocumentElement);
+            DocumentElement.SelectNodes(XmlNodes, 'Language');
+
+            for i := 0 to XmlNodes.Count() - 1 do begin
+                XmlNodes.GetItem(LanguageNode, i)
+            end;
+        end;
     end;
 
     local procedure CreateDemoDocuments()

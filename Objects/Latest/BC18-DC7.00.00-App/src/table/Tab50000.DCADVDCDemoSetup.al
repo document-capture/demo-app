@@ -8,7 +8,15 @@ table 50000 "DCADV DC Demo Setup"
             DataClassification = ToBeClassified;
         }
 
-        
+        field(3; "Template Master  Path"; Text[250])
+        {
+            DataClassification = CustomerContent;
+        }
+
+        field(4; "Template Language"; Text[7])
+        {
+            DataClassification = CustomerContent;
+        }
         field(10; "Purch. Rcpt. Header No."; Code[20])
         {
             DataClassification = ToBeClassified;
