@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" source-language="en-US" target-language="en-US" original="Please update this value">
+    <body>
+      <group id="body">
+        <trans-unit id="Page 3249888072 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Role Center</source>
+          <target>Role Center</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page CKL Demo Role Center CDC - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3249888072 - Action 4234174458 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Document Journal</source>
+          <target>Document Journal</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page CKL Demo Role Center CDC - Action Document Journal - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3249888072 - Action 713531721 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Vendors</source>
+          <target>Vendors</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page CKL Demo Role Center CDC - Action Vendors - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3249888072 - Action 2882327954 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Purchase Orders</source>
+          <target>Purchase Orders</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page CKL Demo Role Center CDC - Action Purchase Orders - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3249888072 - Action 4037192291 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Purchase Invoices</source>
+          <target>Purchase Invoices</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page CKL Demo Role Center CDC - Action Purchase Invoices - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3249888072 - Action 4259830144 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Open</source>
+          <target>Open</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page CKL Demo Role Center CDC - Action Open - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3249888072 - Action 263019662 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Pending Prepayment</source>
+          <target>Pending Prepayment</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page CKL Demo Role Center CDC - Action Pending Prepayment - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3249888072 - Action 1487485508 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Pending Approval</source>
+          <target>Pending Approval</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page CKL Demo Role Center CDC - Action Pending Approval - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3249888072 - Action 4020758431 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Released</source>
+          <target>Released</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page CKL Demo Role Center CDC - Action Released - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3249888072 - Action 849761688 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Purchase Return Orders</source>
+          <target>Purchase Return Orders</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page CKL Demo Role Center CDC - Action Purchase Return Orders - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3249888072 - Action 291926049 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Purchase Credit Memos</source>
+          <target>Purchase Credit Memos</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page CKL Demo Role Center CDC - Action Purchase Credit Memos - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3249888072 - Action 3879573610 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Open</source>
+          <target>Open</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page CKL Demo Role Center CDC - Action Open2 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3249888072 - Action 573812942 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Pending Approval</source>
+          <target>Pending Approval</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page CKL Demo Role Center CDC - Action Pending Approval2 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3249888072 - Action 3411906273 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Released</source>
+          <target>Released</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page CKL Demo Role Center CDC - Action Released2 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3249888072 - Action 2350106857 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Approval Entries</source>
+          <target>Approval Entries</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page CKL Demo Role Center CDC - Action Approval Entries2 - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3249888072 - Action 722101725 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Contacts</source>
+          <target>Contacts</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page CKL Demo Role Center CDC - Action Contacts - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3249888072 - Action 3606140129 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Customers</source>
+          <target>Customers</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page CKL Demo Role Center CDC - Action Customers - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3249888072 - Action 69955983 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Sales Orders</source>
+          <target>Sales Orders</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page CKL Demo Role Center CDC - Action Sales Orders - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3249888072 - Action 1693997414 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Sales Invoices</source>
+          <target>Sales Invoices</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page CKL Demo Role Center CDC - Action Sales Invoices - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3249888072 - Action 3507632001 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Sales Return Orders</source>
+          <target>Sales Return Orders</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page CKL Demo Role Center CDC - Action Sales Return Orders - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3249888072 - Action 1948356160 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Sales Credit Memos</source>
+          <target>Sales Credit Memos</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page CKL Demo Role Center CDC - Action Sales Credit Memos - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3249888072 - Action 3381351663 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Posted Documents</source>
+          <target>Posted Documents</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page CKL Demo Role Center CDC - Action Posted Documents - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3249888072 - Action 1116965951 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Posted Purchase Receipts</source>
+          <target>Posted Purchase Receipts</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page CKL Demo Role Center CDC - Action Posted Purchase Receipts - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3249888072 - Action 407220332 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Posted Purchase Invoices</source>
+          <target>Posted Purchase Invoices</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page CKL Demo Role Center CDC - Action Posted Purchase Invoices - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3249888072 - Action 4135951594 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Posted Purchase Credit Memos</source>
+          <target>Posted Purchase Credit Memos</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page CKL Demo Role Center CDC - Action Posted Purchase Credit Memos - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3249888072 - Action 1550507244 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Posted Return Shipments</source>
+          <target>Posted Return Shipments</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page CKL Demo Role Center CDC - Action Posted Return Shipments - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3249888072 - Action 1840709038 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Posted Sales Shipments</source>
+          <target>Posted Sales Shipments</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page CKL Demo Role Center CDC - Action Posted Sales Shipments - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3249888072 - Action 3434938165 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Posted Sales Invoices</source>
+          <target>Posted Sales Invoices</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page CKL Demo Role Center CDC - Action Posted Sales Invoices - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3249888072 - Action 699376808 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Posted Return Receipts</source>
+          <target>Posted Return Receipts</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page CKL Demo Role Center CDC - Action Posted Return Receipts - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3249888072 - Action 2557560783 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Posted Sales Credit Memos</source>
+          <target>Posted Sales Credit Memos</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page CKL Demo Role Center CDC - Action Posted Sales Credit Memos - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3249888072 - Action 3536505632 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Data Deletion</source>
+          <target>Data Deletion</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page CKL Demo Role Center CDC - Action Data Deletion - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3249888072 - Action 3961007070 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Delete Invoiced Purchase Orders...</source>
+          <target>Delete Invoiced Purchase Orders...</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page CKL Demo Role Center CDC - Action Delete Invoiced Purchase Orders - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 3249888072 - Action 3985629396 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Delete Invoiced Purchase Return Orders...</source>
+          <target>Delete Invoiced Purchase Return Orders...</target>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page CKL Demo Role Center CDC - Action Delete Invoiced Purchase Return Orders - Property Caption</note>
+        </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>
