@@ -1,4 +1,4 @@
-codeunit 50000 "DCADV Reset DC Demo Setup"
+codeunit 63010 "DCADV DC Demo Setup"
 {
     // Codeunit, welches die CDC Demoumgebung zurücksetzen kann
     trigger OnRun()
@@ -19,7 +19,8 @@ codeunit 50000 "DCADV Reset DC Demo Setup"
         // Posten löschen/aufräumen
         DeleteEntries();
 
-        CopyDemoFilesToImportFolder();
+        UpdateDemoDocuments();
+        //CopyDemoFilesToImportFolder();
 
         DeleteRecordIDTree();
         DeleteTemplates();
@@ -163,9 +164,210 @@ codeunit 50000 "DCADV Reset DC Demo Setup"
         lPostValueEntryToGlEntry.DeleteAll(true);
     end;
 
-    local procedure DeleteDCOrders()
+    procedure SelectDemoTemplateLanguage()
+    var
+        DemoSetup: Record "DCADV DC Demo Setup";
+        LanguageBuffer: Record Language temporary;
+        Http: Codeunit "CSC Http";
+
+        XmlDoc: Codeunit "CSC XML Document";
+        DocumentElement: Codeunit "CSC XML Node";
+        Languages: Codeunit "CSC XML NodeList";
+        LanguageNode: Codeunit "CSC XML Node";
+        i: Integer;
+        NoLanguagesFoundErrorMsg: Label 'No valid languages found from master configration link:\%1', Locked = true;
     begin
+        // download master configuration
+        DemoSetup.Get();
+        DemoSetup.TestField("Template Master  Path");
+        Http.GetDocument(StrSubstNo('%1/master.config.xml', GetCleanTemplateMasterPath()), true, XmlDoc);
+        if Http.GetStatusCode() = 200 then begin
+            XmlDoc.GetDocumentElement(DocumentElement);
+            DocumentElement.SelectNodes(Languages, 'Language');
+            // write online available languages to buffer
+            for i := 0 to Languages.Count() - 1 do begin
+                Languages.GetItem(LanguageNode, i);
+                LanguageBuffer.Code := LanguageNode.GetNodeAttribAsText('Code');
+                LanguageBuffer.Name := LanguageNode.GetNodeAttribAsText('Description');
+                if not LanguageBuffer.Insert() then;
+                LanguageBuffer.Modify();
+            end;
+        end else begin
+            Error('Error: %1', Http.GetStatusCode());
+        end;
+
+        // let user select from language buffer
+        if LanguageBuffer.Count = 0 then
+            Error(NoLanguagesFoundErrorMsg, DemoSetup."Template Master  Path");
+
+        if Page.RunModal(Page::Languages, LanguageBuffer) = Action::LookupOK then begin
+            DemoSetup."Template Language" := LowerCase(LanguageBuffer.Code);
+            DemoSetup.Modify();
+        end;
     end;
+
+    local procedure GetCleanTemplateMasterPath(): Text
+    var
+        DemoSetup: Record "DCADV DC Demo Setup";
+    begin
+        if not DemoSetup.Get() then
+            exit;
+        exit(DelChr(DemoSetup."Template Master  Path", '>', '/'));
+    end;
+
+    local procedure UpdateDemoDocuments()
+    var
+        DemoDocuments: Record "DCADV DC Demo Document";
+        TempFile: Record "CDC Temp File" temporary;
+        DocCat: Record "CDC Document Category";
+        DocPath: Text;
+        TempFileStorage: Codeunit "CDC Temp File Storage";
+        DocumentImporter: Codeunit "CDC Document Importer";
+    begin
+        if DemoDocuments.FindFirst() then
+            repeat
+                if (DocCat.Get(DemoDocuments."Document Category")) then begin
+                    DocPath := DocCat.GetCategoryPath(2);
+                    DemoDocuments.CalcFields("Pdf Content", "Tiff Content", "Png Content", "OCR Content");
+
+                    // pdf 
+                    Clear(TempFile);
+                    TempFile.Name := StrSubstNo('CO-%1.%2', DemoDocuments."Document No.", 'pdf');
+                    TempFile.Path := DocPath;
+                    TempFile.Data := DemoDocuments."Pdf Content";
+                    TempFileStorage.AddFile(TempFile);
+
+                    // tiff
+                    Clear(TempFile);
+                    TempFile.Name := StrSubstNo('CO-%1.%2', DemoDocuments."Document No.", 'tiff');
+                    TempFile.Path := DocPath;
+                    TempFile.Data := DemoDocuments."Tiff Content";
+                    TempFileStorage.AddFile(TempFile);
+
+                    // png
+                    Clear(TempFile);
+                    TempFile.Name := StrSubstNo('CO-%1-pages.%2', DemoDocuments."Document No.", 'xml');
+                    TempFile.Path := DocPath;
+                    TempFile.Data := DemoDocuments."Png Content";
+                    TempFileStorage.AddFile(TempFile);
+
+                    // ocr
+                    Clear(TempFile);
+                    TempFile.Name := StrSubstNo('CO-%1.%2', DemoDocuments."Document No.", 'xml');
+                    TempFile.Path := DocPath;
+                    TempFile.Data := DemoDocuments."OCR Content";
+                    TempFileStorage.AddFile(TempFile);
+                end;
+            until DemoDocuments.Next() = 0;
+        DocumentImporter.Run();
+    end;
+
+    internal procedure DownloadDemoFiles(): Boolean
+    var
+        DemoSetup: Record "DCADV DC Demo Setup";
+        DocCat: Record "CDC Document Category";
+
+        Http: Codeunit "CSC Http";
+        XmlDoc: Codeunit "CSC XML Document";
+        DocumentElement: Codeunit "CSC XML Node";
+        Documents: Codeunit "CSC XML NodeList";
+        DocumentNode: Codeunit "CSC XML Node";
+        DocumentChildNodes: Codeunit "CSC XML NodeList";
+        TempNode: Codeunit "CSC XML Node";
+        COMgt: Codeunit "CDC Continia Online Mgt.";
+        i: Integer;
+        NoDocumentFoundErrorMsg: Label 'No valid documents found from language configration link:\%1', Locked = true;
+        FromUrl: Text;
+    begin
+        DemoSetup.Get();
+        if (DemoSetup."Template Language" = '') or (DemoSetup."Template Master  Path" = '') then
+            exit(false);
+
+        // Build main url 
+        FromUrl := StrSubstNo('%1/%2/', GetCleanTemplateMasterPath(), DemoSetup."Template Language");
+
+        // Download language configuration
+        Http.GetDocument(StrSubstNo('%1/%2.config.xml', FromUrl, DemoSetup."Template Language"), true, XmlDoc);
+        if Http.GetStatusCode() = 200 then begin
+            XmlDoc.GetDocumentElement(DocumentElement);
+            DocumentElement.SelectNodes(Documents, 'Document');
+
+            // Iterate through demo document nodes of selected language
+            for i := 0 to Documents.Count() - 1 do begin
+                // get current demo document item
+                Documents.GetItem(DocumentNode, i);
+                DocumentNode.GetChildNodes(DocumentChildNodes);
+
+                // download demo document parts
+                DownloadDemoDocuments(DocumentNode, FromUrl);
+            end;
+
+            // Finally import 
+            //DocumentImporter.Run();
+            exit(true);
+        end else begin
+            Error('Error: %1', Http.GetStatusCode());
+        end;
+
+    end;
+
+    local procedure DownloadDemoDocuments(DocumentNode: Codeunit "CSC XML Node"; FromUrl: Text)
+    var
+        DemoDocument: Record "DCADV DC Demo Document";
+        DocCat: Record "CDC Document Category";
+        Http: Codeunit "CSC Http";
+        WriteStream: OutStream;
+        DocumentChildNodes: Codeunit "CSC XML NodeList";
+        TempNode: Codeunit "CSC XML Node";
+        i: Integer;
+    begin
+        // get child nodes of current document
+        DocumentNode.GetChildNodes(DocumentChildNodes);
+
+        if (DocumentChildNodes.Count() > 0) then begin
+            // remove existing demo document
+            if DemoDocument.Get(DocumentNode.GetNodeAttribAsText('DocumentNo')) then
+                DemoDocument.Delete();
+
+            Clear(DemoDocument);
+            DemoDocument.Validate("Document No.", DocumentNode.GetNodeAttribAsText('DocumentNo'));
+            DemoDocument.Validate(Description, DocumentNode.GetNodeAttribAsText('Description'));
+            if DocCat.Get(DocumentNode.GetNodeAttribAsText('Category')) then
+                DemoDocument.Validate("Document Category", DocCat.Code);
+            DemoDocument.Insert(true);
+
+            for i := 0 to DocumentChildNodes.Count() do begin
+                DocumentChildNodes.GetItem(TempNode, i);
+                clear(WriteStream);
+                case (TempNode.GetName()) of
+                    'pdf':
+                        DemoDocument."Pdf Content".CREATEOUTSTREAM(WriteStream);
+                    'tiff':
+                        DemoDocument."Tiff Content".CREATEOUTSTREAM(WriteStream);
+                    'words':
+                        DemoDocument."OCR Content".CREATEOUTSTREAM(WriteStream);
+                    'png':
+                        DemoDocument."Png Content".CREATEOUTSTREAM(WriteStream);
+                end;
+                Http.DownloadToStream(StrSubstNo('%1/%2', FromUrl, TempNode.InnerText()), WriteStream);
+            end;
+            DemoDocument.Modify();
+        end
+    end;
+
+
+    local procedure DownloadFile(FromUrl: Text[1024]; ToFilePath: Text[1024]; ToFileName: Text[1024]; var TempFile: Record "CDC Temp File" temporary)
+    var
+        Http: Codeunit "CSC Http";
+        WriteStream: OutStream;
+    begin
+        CLEAR(TempFile);
+
+        TempFile.Data.CREATEOUTSTREAM(WriteStream);
+        Http.DownloadToStream(FromUrl, WriteStream);
+    end;
+
+
 
     local procedure CopyDemoFilesToImportFolder()
     var
@@ -662,7 +864,7 @@ codeunit 50000 "DCADV Reset DC Demo Setup"
         Clear(DemoSetup);
         DemoSetup.Insert(true);
 
-        DemoSetup."Template Master  Path" := 'https://raw.githubusercontent.com/document-capture/demo-app/main/DemoFiles/master.config.xml';
+        DemoSetup."Template Master  Path" := 'https://raw.githubusercontent.com/document-capture/demo-app/main/DemoFiles/';
 
         if PurchRcptHeader.FindLast then
             DemoSetup."Purch. Rcpt. Header No." := PurchRcptHeader."No.";
@@ -721,29 +923,7 @@ codeunit 50000 "DCADV Reset DC Demo Setup"
         Message('Ggf. müssen noch die Benutzer und das Genehmigungsverfahren eingerichtet werden!');
     end;
 
-    procedure SelectDemoTemplateLanguage()
-    var
-        DemoSetup: Record "DCADV DC Demo Setup";
-        LanguageBuffer: Record Language temporary;
-        Http: Codeunit "CSC Http";
 
-        XmlDoc: Codeunit "CSC XML Document";
-        DocumentElement: Codeunit "CSC XML Node";
-        XmlNodes: Codeunit "CSC XML NodeList";
-        LanguageNode: Codeunit "CSC XML Node";
-        i: Integer;
-    begin
-        DemoSetup.Get();
-        DemoSetup.TestField("Template Master  Path");
-        if Http.ExecuteXmlDocRequest(DemoSetup."Template Master  Path", 2, true, XmlDoc) then begin
-            XmlDoc.GetDocumentElement(DocumentElement);
-            DocumentElement.SelectNodes(XmlNodes, 'Language');
-
-            for i := 0 to XmlNodes.Count() - 1 do begin
-                XmlNodes.GetItem(LanguageNode, i)
-            end;
-        end;
-    end;
 
     local procedure CreateDemoDocuments()
     var

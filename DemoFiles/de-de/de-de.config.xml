@@ -1,34 +1,45 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Documents>
-<Document Category='EINKAUF' DocumentNo="2021-08-09-001" Description="Kostenrechnung - Lange Heimmöbelbedarf">
-    <pdf>2021-08-09 12-00-00-001.pdf</pdf>
-    <tiff>2021-08-09 12-00-00-001.tiff</tiff>
-    <words>2021-08-09 12-00-00-001.xml</words>
-    <png>2021-08-09 12-00-00-001-pages.xml</png>
-</Document>
-<Document Category='EINKAUF' DocumentNo="2021-08-09-002" Description="Kostenrechnung 2 - Lange Heimmöbelbedarf">
-    <pdf>2021-08-09 12-00-00-002.pdf</pdf>
-    <tiff>2021-08-09 12-00-00-002.tiff</tiff>
-    <words>2021-08-09 12-00-00-002.xml</words>
-    <png>2021-08-09 12-00-00-002-pages.xml</png>
-</Document>
-<Document Category='EINKAUF' DocumentNo="2021-08-09-003" Description="Positionsdaten - Elektronische Ausstattungen">
-    <pdf>2021-08-09 12-00-00-003.pdf</pdf>
-    <tiff>2021-08-09 12-00-00-003.tiff</tiff>
-    <words>2021-08-09 12-00-00-003.xml</words>
-    <png>2021-08-09 12-00-00-003-pages.xml</png>
-</Document>
-<Document Category='EINKAUF' DocumentNo="2021-08-09-004" Description="Positionsdaten - Elektronische Ausstattungen">
-    <pdf>2021-08-09 12-00-00-004.pdf</pdf>
-    <tiff>2021-08-09 12-00-00-004.tiff</tiff>
-    <words>2021-08-09 12-00-00-004.xml</words>
-    <png>2021-08-09 12-00-00-004-pages.xml</png>
-</Document>
-<Document Category='EINKAUF' DocumentNo="2021-08-09-005" Description="Bestellabgleich - Edle Hölzer GmbH">
-    <pdf>2021-08-09 12-00-00-005.pdf</pdf>
-    <tiff>2021-08-09 12-00-00-005.tiff</tiff>
-    <words>2021-08-09 12-00-00-005.xml</words>
-    <png>2021-08-09 12-00-00-005-pages.xml</png>
-</Document>
+    <Document Category='EINKAUF' DocumentNo="2021-08-09-001" Description="Kostenrechnung - Lange Heimmöbelbedarf" Type="pdf">
+        <pdf>2021-08-09 12-00-00-001.pdf</pdf>
+        <tiff>2021-08-09 12-00-00-001.tiff</tiff>
+        <words>2021-08-09 12-00-00-001.xml</words>
+        <png>2021-08-09 12-00-00-001-pages.xml</png>
+    </Document>
+    <Document Category='EINKAUF' DocumentNo="2021-08-09-002" Description="Kostenrechnung 2 - Lange Heimmöbelbedarf" Type="pdf">
+        <pdf>2021-08-09 12-00-00-002.pdf</pdf>
+        <tiff>2021-08-09 12-00-00-002.tiff</tiff>
+        <words>2021-08-09 12-00-00-002.xml</words>
+        <png>2021-08-09 12-00-00-002-pages.xml</png>
+    </Document>
+    <Document Category='EINKAUF' DocumentNo="2021-08-09-003" Description="Positionsdaten - Elektronische Ausstattungen" Type="pdf">
+        <pdf>2021-08-09 12-00-00-003.pdf</pdf>
+        <tiff>2021-08-09 12-00-00-003.tiff</tiff>
+        <words>2021-08-09 12-00-00-003.xml</words>
+        <png>2021-08-09 12-00-00-003-pages.xml</png>
+    </Document>
+    <Document Category='EINKAUF' DocumentNo="2021-08-09-004" Description="Positionsdaten - Elektronische Ausstattungen" Type="pdf">
+        <pdf>2021-08-09 12-00-00-004.pdf</pdf>
+        <tiff>2021-08-09 12-00-00-004.tiff</tiff>
+        <words>2021-08-09 12-00-00-004.xml</words>
+        <png>2021-08-09 12-00-00-004-pages.xml</png>
+    </Document>
+    <Document Category='EINKAUF' DocumentNo="2021-08-09-005" Description="Bestellabgleich - Edle Hölzer GmbH" Type="pdf">
+        <pdf>2021-08-09 12-00-00-005.pdf</pdf>
+        <tiff>2021-08-09 12-00-00-005.tiff</tiff>
+        <words>2021-08-09 12-00-00-005.xml</words>
+        <png>2021-08-09 12-00-00-005-pages.xml</png>
+    </Document>
+    <Document Category='EINKAUF' DocumentNo="2021-08-09-006" Description="PEPPOL3 - Purchase Credit Memo 1 - Holz Trading AG" Type="xml">
+        <xml>2021-08-09 12-00-00-006.xml</xml>
+    </Document>
+    <Document Category='EINKAUF' DocumentNo="2021-08-09-007" Description="PEPPOL3 - Purchase Invoice 1 - Holz Trading AG" Type="xml">
+        <xml>2021-08-09 12-00-00-007.xml</xml>
+    </Document>
+    <Document Category='EINKAUF' DocumentNo="2021-08-09-008" Description="XRECHNUNG - Purchase Invoice 1 - KKA Buromaschinen Gmbh" Type="xml">
+        <xml>2021-08-09 12-00-00-008.xml</xml>
+    </Document>
+    
+
 </Documents>
 

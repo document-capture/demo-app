@@ -1,4 +1,4 @@
-table 50000 "DCADV DC Demo Setup"
+table 63010 "DCADV DC Demo Setup"
 {
 
     fields
