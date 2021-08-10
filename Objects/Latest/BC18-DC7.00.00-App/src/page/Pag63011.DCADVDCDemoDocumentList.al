@@ -21,6 +21,11 @@ page 63011 "DCADV DC Demo Document List"
                     ToolTip = 'Specifies the value of the Description field';
                     ApplicationArea = All;
                 }
+                field("File Type"; "File Type")
+                {
+                    ToolTip = 'Specifies the file type of the demo document';
+                    ApplicationArea = All;
+                }
                 field("Document Category"; Rec."Document Category")
                 {
                     ToolTip = 'Specifies the value of the Document Category field';
@@ -43,7 +48,12 @@ page 63011 "DCADV DC Demo Document List"
                 }
                 field("OCR Content"; Rec."OCR Content".HasValue)
                 {
-                    ToolTip = 'Specifies the value of the OCR Content field';
+                    ToolTip = 'Specifies the value of the OCR content field';
+                    ApplicationArea = All;
+                }
+                field("XML Content"; Rec."XML Content".HasValue)
+                {
+                    ToolTip = 'Specifies the value of the XML content field';
                     ApplicationArea = All;
                 }
             }

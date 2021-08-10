@@ -136,7 +136,7 @@ page 63010 "DCADV DC Demo Setup Card"
                 var
                     DemoMgt: Codeunit "DCADV DC Demo Setup";
                 begin
-                    DemoMgt.DownloadDemoFiles();
+                    DemoMgt.DownloadDemoDocuments();
                     CurrPage.Update(false);
                 end;
             }

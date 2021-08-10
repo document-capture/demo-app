@@ -15,6 +15,11 @@ table 63011 "DCADV DC Demo Document"
             Caption = 'Description';
             DataClassification = CustomerContent;
         }
+        field(3; "File Type"; Enum "DCADV File Type")
+        {
+            Caption = 'File Type';
+            DataClassification = CustomerContent;
+        }
         field(6; "Document Category"; Code[10])
         {
             Caption = 'Document Category';
@@ -40,6 +45,11 @@ table 63011 "DCADV DC Demo Document"
         field(13; "OCR Content"; Blob)
         {
             Caption = 'OCR Content';
+            DataClassification = CustomerContent;
+        }
+        field(14; "XML Content"; Blob)
+        {
+            Caption = 'XML Content';
             DataClassification = CustomerContent;
         }
     }

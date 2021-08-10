@@ -227,56 +227,63 @@ codeunit 63010 "DCADV DC Demo Setup"
         if DemoDocuments.FindFirst() then
             repeat
                 if (DocCat.Get(DemoDocuments."Document Category")) then begin
-                    DocPath := DocCat.GetCategoryPath(2);
-                    DemoDocuments.CalcFields("Pdf Content", "Tiff Content", "Png Content", "OCR Content");
+                    if (DemoDocuments."File Type" = DemoDocuments."File Type"::pdf) then begin
+                        DocPath := DocCat.GetCategoryPath(2);
+                        DemoDocuments.CalcFields("Pdf Content", "Tiff Content", "Png Content", "OCR Content", "XML Content");
 
-                    // pdf 
-                    Clear(TempFile);
-                    TempFile.Name := StrSubstNo('CO-%1.%2', DemoDocuments."Document No.", 'pdf');
-                    TempFile.Path := DocPath;
-                    TempFile.Data := DemoDocuments."Pdf Content";
-                    TempFileStorage.AddFile(TempFile);
+                        // pdf 
+                        Clear(TempFile);
+                        TempFile.Name := StrSubstNo('CO-%1.%2', DemoDocuments."Document No.", 'pdf');
+                        TempFile.Path := DocPath;
+                        TempFile.Data := DemoDocuments."Pdf Content";
+                        TempFileStorage.AddFile(TempFile);
 
-                    // tiff
-                    Clear(TempFile);
-                    TempFile.Name := StrSubstNo('CO-%1.%2', DemoDocuments."Document No.", 'tiff');
-                    TempFile.Path := DocPath;
-                    TempFile.Data := DemoDocuments."Tiff Content";
-                    TempFileStorage.AddFile(TempFile);
+                        // tiff
+                        Clear(TempFile);
+                        TempFile.Name := StrSubstNo('CO-%1.%2', DemoDocuments."Document No.", 'tiff');
+                        TempFile.Path := DocPath;
+                        TempFile.Data := DemoDocuments."Tiff Content";
+                        TempFileStorage.AddFile(TempFile);
 
-                    // png
-                    Clear(TempFile);
-                    TempFile.Name := StrSubstNo('CO-%1-pages.%2', DemoDocuments."Document No.", 'xml');
-                    TempFile.Path := DocPath;
-                    TempFile.Data := DemoDocuments."Png Content";
-                    TempFileStorage.AddFile(TempFile);
+                        // png
+                        Clear(TempFile);
+                        TempFile.Name := StrSubstNo('CO-%1-pages.%2', DemoDocuments."Document No.", 'xml');
+                        TempFile.Path := DocPath;
+                        TempFile.Data := DemoDocuments."Png Content";
+                        TempFileStorage.AddFile(TempFile);
 
-                    // ocr
-                    Clear(TempFile);
-                    TempFile.Name := StrSubstNo('CO-%1.%2', DemoDocuments."Document No.", 'xml');
-                    TempFile.Path := DocPath;
-                    TempFile.Data := DemoDocuments."OCR Content";
-                    TempFileStorage.AddFile(TempFile);
+                        // ocr
+                        Clear(TempFile);
+                        TempFile.Name := StrSubstNo('CO-%1.%2', DemoDocuments."Document No.", 'xml');
+                        TempFile.Path := DocPath;
+                        TempFile.Data := DemoDocuments."OCR Content";
+                        TempFileStorage.AddFile(TempFile);
+                    end else begin
+                        DocPath := DocCat.GetCategoryPath(4);
+                        DemoDocuments.CalcFields("XML Content");
+
+                        // e-invoice 
+                        Clear(TempFile);
+                        TempFile.Name := StrSubstNo('CO-%1.%2', DemoDocuments."Document No.", 'xml');
+                        TempFile.Path := DocPath;
+                        TempFile.Data := DemoDocuments."Xml Content";
+                        TempFileStorage.AddFile(TempFile);
+                    end;
                 end;
             until DemoDocuments.Next() = 0;
         DocumentImporter.Run();
     end;
 
-    internal procedure DownloadDemoFiles(): Boolean
+    internal procedure DownloadDemoDocuments(): Boolean
     var
         DemoSetup: Record "DCADV DC Demo Setup";
-        DocCat: Record "CDC Document Category";
-
         Http: Codeunit "CSC Http";
         XmlDoc: Codeunit "CSC XML Document";
         DocumentElement: Codeunit "CSC XML Node";
         Documents: Codeunit "CSC XML NodeList";
         DocumentNode: Codeunit "CSC XML Node";
         DocumentChildNodes: Codeunit "CSC XML NodeList";
-        TempNode: Codeunit "CSC XML Node";
-        COMgt: Codeunit "CDC Continia Online Mgt.";
         i: Integer;
-        NoDocumentFoundErrorMsg: Label 'No valid documents found from language configration link:\%1', Locked = true;
         FromUrl: Text;
     begin
         DemoSetup.Get();
@@ -299,7 +306,7 @@ codeunit 63010 "DCADV DC Demo Setup"
                 DocumentNode.GetChildNodes(DocumentChildNodes);
 
                 // download demo document parts
-                DownloadDemoDocuments(DocumentNode, FromUrl);
+                DownloadDemoDocument(DocumentNode, FromUrl);
             end;
 
             // Finally import 
@@ -311,7 +318,7 @@ codeunit 63010 "DCADV DC Demo Setup"
 
     end;
 
-    local procedure DownloadDemoDocuments(DocumentNode: Codeunit "CSC XML Node"; FromUrl: Text)
+    local procedure DownloadDemoDocument(DocumentNode: Codeunit "CSC XML Node"; FromUrl: Text)
     var
         DemoDocument: Record "DCADV DC Demo Document";
         DocCat: Record "CDC Document Category";
@@ -332,6 +339,13 @@ codeunit 63010 "DCADV DC Demo Setup"
             Clear(DemoDocument);
             DemoDocument.Validate("Document No.", DocumentNode.GetNodeAttribAsText('DocumentNo'));
             DemoDocument.Validate(Description, DocumentNode.GetNodeAttribAsText('Description'));
+            case DocumentNode.GetNodeAttribAsText('Type') of
+                'pdf':
+                    DemoDocument.Validate("File Type", DemoDocument."File Type"::pdf);
+                'xml':
+                    DemoDocument.Validate("File Type", DemoDocument."File Type"::xml);
+            end;
+
             if DocCat.Get(DocumentNode.GetNodeAttribAsText('Category')) then
                 DemoDocument.Validate("Document Category", DocCat.Code);
             DemoDocument.Insert(true);
@@ -348,6 +362,8 @@ codeunit 63010 "DCADV DC Demo Setup"
                         DemoDocument."OCR Content".CREATEOUTSTREAM(WriteStream);
                     'png':
                         DemoDocument."Png Content".CREATEOUTSTREAM(WriteStream);
+                    'xml':
+                        DemoDocument."Xml Content".CREATEOUTSTREAM(WriteStream);
                 end;
                 Http.DownloadToStream(StrSubstNo('%1/%2', FromUrl, TempNode.InnerText()), WriteStream);
             end;
