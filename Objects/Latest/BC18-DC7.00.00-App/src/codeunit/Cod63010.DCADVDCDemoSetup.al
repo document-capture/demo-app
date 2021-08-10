@@ -18,10 +18,6 @@ codeunit 63010 "DCADV DC Demo Setup"
 
         // Posten löschen/aufräumen
         DeleteEntries();
-
-        UpdateDemoDocuments();
-        //CopyDemoFilesToImportFolder();
-
         DeleteRecordIDTree();
         DeleteTemplates();
         DeleteApprovalEntries();
@@ -29,6 +25,9 @@ codeunit 63010 "DCADV DC Demo Setup"
         CreatePurchaseOrders();
         PostShipmentOfPurchaseOrders;
         //PostPartialShipmentOfPurchaseOrder1003;
+
+        // Get new documents
+        UpdateDemoDocuments();
 
         //Prepare Demo
         PrepareDemo;
@@ -41,11 +40,9 @@ codeunit 63010 "DCADV DC Demo Setup"
         // GL/Entry
         //GLEntryPrepareCompany;
 
-        // Exprt document categories
+        // Export document categories
         REPORT.Run(REPORT::"CDC Export OCR Config. Files", false, false);
 
-        // Document Output
-        //CODEUNIT.RUN(50001);
         Message(Text002);
     end;
 
@@ -385,84 +382,6 @@ codeunit 63010 "DCADV DC Demo Setup"
 
 
 
-    local procedure CopyDemoFilesToImportFolder()
-    var
-        lDCSetup: Record "CDC Document Capture Setup";
-        lDCCategory: Record "CDC Document Category";
-        lContiniaCompanySetup: Record "CDC Continia Company Setup";
-        lDirInfo: DotNet DirectoryInfo;
-        lCurrDirInfo: DotNet DirectoryInfo;
-        lFile: DotNet File;
-        lFolder: DotNet Directory;
-        lPath: DotNet Path;
-        lGenList: DotNet List_Of_T;
-        lObj: DotNet Object;
-        lCurrPath: Text;
-        lCatPath: Text[1024];
-        i: Integer;
-        j: Integer;
-    begin
-        with lDCSetup do begin
-            Get;
-            TestField("File Path for OCR-proc. files");
-            TestField("XML File Path");
-
-            lContiniaCompanySetup.Get;
-            lCurrPath := lPath.Combine(lDCSetup."Archive File Path", lContiniaCompanySetup."Company Code");
-
-            // Archiv bereinigen >>>
-            if lFolder.Exists(lCurrPath) then begin
-                lDirInfo := lDirInfo.DirectoryInfo(lCurrPath);
-                lObj := lDirInfo.GetDirectories();
-                lGenList := lGenList.List;
-                lGenList.AddRange(lObj);
-                for i := 0 to lGenList.Count - 1 do begin
-                    lFolder.Delete(lPath.Combine(lCurrPath, Format(lGenList.Item(i))), true);
-                end;
-            end;
-            // Archiv bereinigen <<<
-
-            // Iteriere durch alle Belegkategorien
-            if lDCCategory.FindSet then
-                repeat
-
-                    // Vorhandene Ordner und Dateien entfernen
-                    for j := 1 to 4 do begin
-                        if lFolder.Exists(lDCCategory.GetCategoryPath(j)) then begin
-                            lDirInfo := lDirInfo.DirectoryInfo(lDCCategory.GetCategoryPath(j));
-                            lObj := lDirInfo.GetDirectories();
-                            lGenList := lGenList.List;
-                            lGenList.AddRange(lObj);
-                            for i := 0 to lGenList.Count - 1 do begin
-                                lCurrDirInfo := lCurrDirInfo.DirectoryInfo(Format(lGenList.Item(i)));
-                                if lFolder.Exists(Format(lGenList.Item(i))) then
-                                    if UpperCase(lCurrDirInfo.Name) <> 'BACKUP' then
-                                        lFolder.Delete(Format(lGenList.Item(i)), true);
-                            end;
-
-                            lObj := lFolder.GetFiles(lDCCategory.GetCategoryPath(j));
-                            lGenList := lGenList.List;
-                            lGenList.AddRange(lObj);
-                            for i := 0 to lGenList.Count - 1 do begin
-                                lFile.Delete(Format(lGenList.Item(i)));
-                            end;
-
-                            // Copy backup files to current directory
-                            if lFolder.Exists(lPath.Combine(lDCCategory.GetCategoryPath(j), 'BACKUP')) then begin
-                                lObj := lFolder.GetFiles(lPath.Combine(lDCCategory.GetCategoryPath(j), 'BACKUP'));
-                                lGenList := lGenList.List;
-                                lGenList.AddRange(lObj);
-                                // Iteration durch die gefundenen Dateien
-                                for i := 0 to lGenList.Count - 1 do begin
-                                    lFile.Copy(Format(lGenList.Item(i)),
-                                           lPath.Combine(lDCCategory.GetCategoryPath(j), lPath.GetFileName(Format(lGenList.Item(i)))));
-                                end;
-                            end;
-                        end;
-                    end;
-                until lDCCategory.Next = 0;
-        end;
-    end;
 
     local procedure DeleteTemplates()
     var
