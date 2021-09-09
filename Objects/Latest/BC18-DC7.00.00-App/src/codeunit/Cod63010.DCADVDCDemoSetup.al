@@ -17,14 +17,20 @@ codeunit 63010 "DCADV DC Demo Setup"
         DeleteDocuments();
 
         // Posten löschen/aufräumen
-        DeleteEntries();
+        if DemoSetup."Reset Posting Entries" then begin
+            DeleteEntries();
+            CreatePurchaseOrders();
+            PostShipmentOfPurchaseOrders;
+        end;
+
+        if DemoSetup."Delete absence sh. approvals" then
+            DeleteAbsenceSharedApprovals();
+
+
         DeleteRecordIDTree();
         DeleteTemplates();
         DeleteApprovalEntries();
         ResetVendors();
-        CreatePurchaseOrders();
-        PostShipmentOfPurchaseOrders;
-        //PostPartialShipmentOfPurchaseOrder1003;
 
         // Get new documents
         UpdateDemoDocuments();
@@ -282,6 +288,7 @@ codeunit 63010 "DCADV DC Demo Setup"
         DocumentChildNodes: Codeunit "CSC XML NodeList";
         i: Integer;
         FromUrl: Text;
+        DownloadInfoMessage: Label '%1 documents have been downloaded.';
     begin
         DemoSetup.Get();
         if (DemoSetup."Template Language" = '') or (DemoSetup."Template Master  Path" = '') then
@@ -308,6 +315,7 @@ codeunit 63010 "DCADV DC Demo Setup"
 
             // Finally import 
             //DocumentImporter.Run();
+            Message(DownloadInfoMessage, Documents.Count);
             exit(true);
         end else begin
             Error('Error: %1', Http.GetStatusCode());
@@ -932,6 +940,14 @@ codeunit 63010 "DCADV DC Demo Setup"
         PurchaseLine.Validate(Quantity, Qty);
         PurchaseLine.Validate("Direct Unit Cost", PurchPrice);
         PurchaseLine.Modify(true);
+    end;
+
+    local procedure DeleteAbsenceSharedApprovals()
+    var
+        SharedApprovals: Record "CDC Approval Sharing";
+    begin
+        SharedApprovals.SetRange("Sharing Type", SharedApprovals."Sharing Type"::"Out of Office");
+        SharedApprovals.DeleteAll();
     end;
 }
 

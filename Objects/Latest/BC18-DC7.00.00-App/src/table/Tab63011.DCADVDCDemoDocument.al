@@ -52,6 +52,7 @@ table 63011 "DCADV DC Demo Document"
             Caption = 'XML Content';
             DataClassification = CustomerContent;
         }
+
     }
     keys
     {

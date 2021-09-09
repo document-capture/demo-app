@@ -97,6 +97,16 @@ table 63010 "DCADV DC Demo Setup"
             DataClassification = ToBeClassified;
             TableRelation = "Purchase Header"."No." WHERE("Document Type" = CONST(Invoice));
         }
+        field(50; "Reset Posting Entries"; Boolean)
+        {
+            Caption = 'Reset posting entries';
+            DataClassification = CustomerContent;
+        }
+        field(51; "Delete absence sh. approvals"; Boolean)
+        {
+            Caption = 'Delete sh. approvals for absence';
+            DataClassification = CustomerContent;
+        }
     }
 
     keys

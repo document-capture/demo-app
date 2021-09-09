@@ -5,6 +5,7 @@ page 63010 "DCADV DC Demo Setup Card"
     PageType = Card;
     SourceTable = "DCADV DC Demo Setup";
     UsageCategory = Administration;
+    ApplicationArea = All;
 
     layout
     {
@@ -33,7 +34,21 @@ page 63010 "DCADV DC Demo Setup Card"
             }
             part("Documents"; "DCADV DC Demo Document List")
             {
+                ApplicationArea = All;
+            }
 
+            group("Reset Options")
+            {
+                field("Reset Posting Entries"; Rec."Reset Posting Entries")
+                {
+                    ToolTip = 'Specifies if the demo reset will reset all system entries to its initial values';
+                    ApplicationArea = All;
+                }
+                field("Delete absence sh. approvals"; Rec."Delete absence sh. approvals")
+                {
+                    ToolTip = 'Specifies if the demo reset will remove all shared approval entries of type absence, that might have been created during a demo';
+                    ApplicationArea = All;
+                }
             }
             group("Posting Documentation")
             {
@@ -139,6 +154,54 @@ page 63010 "DCADV DC Demo Setup Card"
                     DemoMgt.DownloadDemoDocuments();
                     CurrPage.Update(false);
                 end;
+            }
+            action("Create User")
+            {
+                Promoted = true;
+                PromotedIsBig = true;
+                PromotedCategory = Process;
+                ApplicationArea = All;
+                Image = Refresh;
+
+                trigger OnAction()
+                var
+                    DemoMgt: Codeunit "DCADV DC Demo Setup";
+                begin
+                    CurrPage.Update(false);
+                end;
+            }
+        }
+        area(Navigation)
+        {
+            action("Document Capture Setup")
+            {
+                Promoted = true;
+                PromotedIsBig = true;
+                PromotedCategory = Process;
+                ApplicationArea = All;
+                Image = Setup;
+                RunObject = page "CDC Document Capture Setup";
+                RunPageMode = Edit;
+            }
+            action("Continia User Setup")
+            {
+                Promoted = true;
+                PromotedIsBig = true;
+                PromotedCategory = Process;
+                ApplicationArea = All;
+                Image = UserSetup;
+                RunObject = page "CDC Continia User Setup List";
+                RunPageMode = Edit;
+            }
+            action("Salesperson/Purchaser")
+            {
+                Promoted = true;
+                PromotedIsBig = true;
+                PromotedCategory = Process;
+                ApplicationArea = All;
+                Image = SalesPerson;
+                RunObject = page "Salespersons/Purchasers";
+                RunPageMode = Edit;
             }
         }
     }

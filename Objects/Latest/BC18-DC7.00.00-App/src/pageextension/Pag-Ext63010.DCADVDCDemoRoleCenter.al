@@ -10,6 +10,7 @@ pageextension 63010 "DCADV DC Demo Role Center" extends "CDC Doc. Capture Role C
                 Image = ResetStatus;
                 Promoted = true;
                 RunObject = Codeunit "DCADV DC Demo Setup";
+                ApplicationArea = All;
             }
         }
     }
