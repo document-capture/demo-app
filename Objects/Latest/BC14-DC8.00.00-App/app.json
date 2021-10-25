@@ -1,0 +1,28 @@
+{
+  "id": "391517ec-0bec-412c-a7d2-2df476b7e77f",
+  "name": "Continia Partner Demo App",
+  "publisher": "Continia Software GmbH",
+  "version": "1.0.0.0",
+  "brief": "",
+  "description": "App for optimized Document Capture demonstrations",
+  "privacyStatement": "",
+  "EULA": "",
+  "help": "",
+  "url": "",
+  "logo": "",
+  "dependencies": [
+    
+  ],
+  "screenshots": [],
+  "platform": "14.0.0.0",
+  "application": "14.0.0.0",
+  "idRanges": [
+    {
+      "from": 63010,
+      "to": 63011
+    }
+  ],
+  "showMyCode": true,
+  "runtime": "3.0",
+  "target": "Internal"
+}
