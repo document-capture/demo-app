@@ -1,4 +1,4 @@
-enum 63010 "DCADV File Type"
+enum 63010 "PTE DC Demo File Type"
 {
     Extensible = true;
 

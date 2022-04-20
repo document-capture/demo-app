@@ -15,7 +15,7 @@ table 63011 "DCADV DC Demo Document"
             Caption = 'Description';
             DataClassification = CustomerContent;
         }
-        field(3; "File Type"; Enum "DCADV File Type")
+        field(3; "File Type"; Enum "PTE DC Demo File Type")
         {
             Caption = 'File Type';
             DataClassification = CustomerContent;

@@ -103,7 +103,7 @@ table 63010 "DCADV DC Demo Setup"
             DataClassification = CustomerContent;
             trigger OnValidate()
             var
-                DemoMgt: Codeunit "DCADV DC Demo Setup";
+                DemoMgt: Codeunit "PTE DC Demo Setup";
             begin
                 if ("Reset Posting Entries" = true) and (xRec."Reset Posting Entries" = false) then
                     DemoMgt.UpdateLastPostingEntries(Rec);

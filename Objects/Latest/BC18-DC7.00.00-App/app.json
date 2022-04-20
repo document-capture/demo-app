@@ -2,7 +2,7 @@
   "id": "391517ec-0bec-412c-a7d2-2df476b7e77f",
   "name": "Continia Partner Demo App",
   "publisher": "Continia Software GmbH",
-  "version": "1.0.0.1",
+  "version": "1.0.0.3",
   "brief": "",
   "description": "App for optimized Document Capture demonstrations",
   "privacyStatement": "",
@@ -10,7 +10,7 @@
   "help": "",
   "url": "",
   "logo": "",
-  "target": "OnPrem",
+  "target": "Cloud",
   "dependencies": [
     {
       "id": "4b915d7e-c02a-435f-85ab-649086c1e002",

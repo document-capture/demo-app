@@ -21,7 +21,7 @@ page 63011 "DCADV DC Demo Document List"
                     ToolTip = 'Specifies the value of the Description field';
                     ApplicationArea = All;
                 }
-                field("File Type"; "File Type")
+                field("File Type"; Rec."File Type")
                 {
                     ToolTip = 'Specifies the file type of the demo document';
                     ApplicationArea = All;

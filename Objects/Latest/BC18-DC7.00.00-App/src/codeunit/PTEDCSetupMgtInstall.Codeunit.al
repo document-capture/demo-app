@@ -1,4 +1,4 @@
-codeunit 63011 "DCADV DC Setup Mgt. Install"
+codeunit 63011 "PTE DC Setup Mgt. Install"
 {
     Subtype = Install;
 

@@ -1,4 +1,4 @@
-page 63010 "DCADV DC Demo Setup Card"
+page 63010 "PTE DC Demo Setup Card"
 {
 
     Caption = 'DC Demo Setup Card';
@@ -149,7 +149,7 @@ page 63010 "DCADV DC Demo Setup Card"
 
                 trigger OnAction()
                 var
-                    DemoMgt: Codeunit "DCADV DC Demo Setup";
+                    DemoMgt: Codeunit "PTE DC Demo Setup";
                 begin
                     DemoMgt.DownloadDemoDocuments();
                     CurrPage.Update(false);
@@ -165,7 +165,7 @@ page 63010 "DCADV DC Demo Setup Card"
 
                 trigger OnAction()
                 var
-                    DemoMgt: Codeunit "DCADV DC Demo Setup";
+                    DemoMgt: Codeunit "PTE DC Demo Setup";
                 begin
                     CurrPage.Update(false);
                 end;
@@ -207,5 +207,5 @@ page 63010 "DCADV DC Demo Setup Card"
     }
 
     var
-        DemoSetupMgt: Codeunit "DCADV DC Demo Setup";
+        DemoSetupMgt: Codeunit "PTE DC Demo Setup";
 }

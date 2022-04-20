@@ -1,4 +1,4 @@
-codeunit 63010 "DCADV DC Demo Setup"
+codeunit 63010 "PTE DC Demo Setup"
 {
     // Codeunit, welches die CDC Demoumgebung zurücksetzen kann
     trigger OnRun()
@@ -534,131 +534,125 @@ codeunit 63010 "DCADV DC Demo Setup"
 
     local procedure UpdatePurchLineQtyToRcpt(pPurchHeaderNo: Code[20]; pItemNo: Code[20]; pQtyToReceive: Decimal)
     var
-        lPurchLine: Record "Purchase Line";
+        PurchaseLine: Record "Purchase Line";
     begin
-        with lPurchLine do begin
-            SetRange("Document Type", lPurchLine."Document Type"::Order);
-            SetRange("Document No.", pPurchHeaderNo);
-            SetRange(Type, lPurchLine.Type::Item);
-            SetRange("No.", pItemNo);
-            if Find('-') then begin
-                Validate("Qty. to Receive", pQtyToReceive);
-                Modify(true);
-            end;
+
+        PurchaseLine.SetRange("Document Type", PurchaseLine."Document Type"::Order);
+        PurchaseLine.SetRange("Document No.", pPurchHeaderNo);
+        PurchaseLine.SetRange(Type, PurchaseLine.Type::Item);
+        PurchaseLine.SetRange("No.", pItemNo);
+        if PurchaseLine.Find('-') then begin
+            PurchaseLine.Validate("Qty. to Receive", pQtyToReceive);
+            PurchaseLine.Modify(true);
         end;
-
-
     end;
 
     local procedure PostPartialShipmentOfPurchaseOrder1003()
     var
-        lPurchHeader: Record "Purchase Header";
-        lPurchLine: Record "Purchase Line";
+        PurchHeader: Record "Purchase Header";
+        PurchaseLine: Record "Purchase Line";
     begin
         // Ein paar Bestellzeilen liefern, damit auch WE-Zeilen gezeigt werden können
-        with lPurchLine do begin
-            SetRange("Document Type", lPurchLine."Document Type"::Order);
-            SetRange("Document No.", '1003');
-            if FindSet then
-                repeat
-                    Validate("Qty. to Receive", 0);
-                    Validate("Qty. to Invoice", 0);
-                    Modify;
-                until Next = 0;
-            UpdatePurchLineQtyToRcpt('1003', '70060', 100);
-            UpdatePurchLineQtyToRcpt('1003', '70010', 30);
-            UpdatePurchLineQtyToRcpt('1003', '70040', 40);
-            UpdatePurchLineQtyToRcpt('1003', '70101', 10);
+
+        PurchaseLine.SetRange("Document Type", PurchaseLine."Document Type"::Order);
+        PurchaseLine.SetRange("Document No.", '1003');
+        if PurchaseLine.FindSet then
+            repeat
+                PurchaseLine.Validate("Qty. to Receive", 0);
+                PurchaseLine.Validate("Qty. to Invoice", 0);
+                PurchaseLine.Modify;
+            until PurchaseLine.Next = 0;
+        UpdatePurchLineQtyToRcpt('1003', '70060', 100);
+        UpdatePurchLineQtyToRcpt('1003', '70010', 30);
+        UpdatePurchLineQtyToRcpt('1003', '70040', 40);
+        UpdatePurchLineQtyToRcpt('1003', '70101', 10);
+
+
+        if PurchHeader.Get(PurchHeader."Document Type"::Order, '1003') then begin
+            PurchHeader.Receive := true;
+            PurchHeader.Invoice := false;
+            PurchHeader."Print Posted Documents" := false;
         end;
 
-        if lPurchHeader.Get(lPurchHeader."Document Type"::Order, '1003') then begin
-            lPurchHeader.Receive := true;
-            lPurchHeader.Invoice := false;
-            lPurchHeader."Print Posted Documents" := false;
-        end;
-
-        CODEUNIT.Run(90, lPurchHeader);
+        Codeunit.Run(90, PurchHeader);
     end;
 
     local procedure PostShipmentOfPurchaseOrders()
     var
-        lPurchHeader: Record "Purchase Header";
-        lPurchLine: Record "Purchase Line";
+        PurchHeader: Record "Purchase Header";
+        PurchaseLine: Record "Purchase Line";
     begin
         // Ein paar Bestellzeilen liefern, damit auch WE-Zeilen gezeigt werden können
-        with lPurchLine do begin
-            SetRange("Document Type", lPurchLine."Document Type"::Order);
-            SetRange("Document No.", '1004', '1005');
-            if FindSet then
-                repeat
-                    //VALIDATE("Qty. to Receive",0);
-                    Validate("Qty. to Invoice", 0);
-                    Modify;
-                until Next = 0;
+        PurchaseLine.SetRange("Document Type", PurchaseLine."Document Type"::Order);
+        PurchaseLine.SetRange("Document No.", '1004', '1005');
+        if PurchaseLine.FindSet then
+            repeat
+                //VALIDATE("Qty. to Receive",0);
+                PurchaseLine.Validate("Qty. to Invoice", 0);
+                PurchaseLine.Modify;
+            until PurchaseLine.Next = 0;
+
+        if PurchHeader.Get(PurchHeader."Document Type"::Order, '1004') then begin
+            PurchHeader.Receive := true;
+            PurchHeader.Invoice := false;
+            PurchHeader."Print Posted Documents" := false;
         end;
 
-        if lPurchHeader.Get(lPurchHeader."Document Type"::Order, '1004') then begin
-            lPurchHeader.Receive := true;
-            lPurchHeader.Invoice := false;
-            lPurchHeader."Print Posted Documents" := false;
+        Codeunit.Run(90, PurchHeader);
+
+        if PurchHeader.Get(PurchHeader."Document Type"::Order, '1005') then begin
+            PurchHeader.Receive := true;
+            PurchHeader.Invoice := false;
+            PurchHeader."Print Posted Documents" := false;
         end;
 
-        CODEUNIT.Run(90, lPurchHeader);
-
-        if lPurchHeader.Get(lPurchHeader."Document Type"::Order, '1005') then begin
-            lPurchHeader.Receive := true;
-            lPurchHeader.Invoice := false;
-            lPurchHeader."Print Posted Documents" := false;
-        end;
-
-        CODEUNIT.Run(90, lPurchHeader);
+        Codeunit.Run(90, PurchHeader);
     end;
 
     local procedure DeleteSalesOrders()
     var
-        lSalesHeader: Record "Sales Header";
+        SalesHeader: Record "Sales Header";
     begin
-        lSalesHeader.SetRange("Document Type", lSalesHeader."Document Type"::Order);
-        lSalesHeader.SetFilter("No.", '1000..1999&????');
-        lSalesHeader.DeleteAll(true);
+        SalesHeader.SetRange("Document Type", SalesHeader."Document Type"::Order);
+        SalesHeader.SetFilter("No.", '1000..1999&????');
+        SalesHeader.DeleteAll(true);
     end;
 
     local procedure CreateItemCrossRef()
     var
-        lItemCrossRef: Record "Item Cross Reference";
+        ItemCrossRef: Record "Item Cross Reference";
     begin
-        with lItemCrossRef do begin
-            DeleteAll;
 
-            Init;
-            Validate("Cross-Reference Type", "Cross-Reference Type"::Customer);
-            Validate("Cross-Reference Type No.", '60000');
-            Validate("Item No.", 'LS-S15');
-            Validate("Cross-Reference No.", 'STAND-CHER');
-            Insert(true);
+        ItemCrossRef.DeleteAll;
 
-            Validate("Item No.", 'LS-2');
-            Validate("Cross-Reference No.", 'LOUD-CABLES');
-            Insert(true);
+        ItemCrossRef.Init;
+        ItemCrossRef.Validate("Cross-Reference Type", ItemCrossRef."Cross-Reference Type"::Customer);
+        ItemCrossRef.Validate("Cross-Reference Type No.", '60000');
+        ItemCrossRef.Validate("Item No.", 'LS-S15');
+        ItemCrossRef.Validate("Cross-Reference No.", 'STAND-CHER');
+        ItemCrossRef.Insert(true);
 
-            Validate("Item No.", 'LS-150');
-            Validate("Cross-Reference No.", '150W-CHER');
-            Insert(true);
-        end;
+        ItemCrossRef.Validate("Item No.", 'LS-2');
+        ItemCrossRef.Validate("Cross-Reference No.", 'LOUD-CABLES');
+        ItemCrossRef.Insert(true);
+
+        ItemCrossRef.Validate("Item No.", 'LS-150');
+        ItemCrossRef.Validate("Cross-Reference No.", '150W-CHER');
+        ItemCrossRef.Insert(true);
     end;
 
     local procedure RenameFieldNames()
     var
-        lTemplateField: Record "CDC Template Field";
+        TemplateField: Record "CDC Template Field";
     begin
-        if lTemplateField.Get('VERKAUF-DE', lTemplateField.Type::Header, 'DOCNO') then begin
-            lTemplateField."Field Name" := 'Belegnr.';
-            lTemplateField.Modify(true);
+        if TemplateField.Get('VERKAUF-DE', TemplateField.Type::Header, 'DOCNO') then begin
+            TemplateField."Field Name" := 'Belegnr.';
+            TemplateField.Modify(true);
         end;
 
-        if lTemplateField.Get('VERKAUF-DE', lTemplateField.Type::Header, 'DOCDATE') then begin
-            lTemplateField."Field Name" := 'Belegdatum';
-            lTemplateField.Modify(true);
+        if TemplateField.Get('VERKAUF-DE', TemplateField.Type::Header, 'DOCDATE') then begin
+            TemplateField."Field Name" := 'Belegdatum';
+            TemplateField.Modify(true);
         end;
         //Template No.,Type,Code
     end;
@@ -720,15 +714,14 @@ codeunit 63010 "DCADV DC Demo Setup"
         CDCTemplate: Record "CDC Template";
         ItemVendor: Record "Item Vendor";
     begin
-        with TemplateFieldCaption do begin
-            Init;
-            "Template No." := 'EINKAUF-DE';
-            Type := 0;
-            Code := 'DOCDATE';
-            "Line No." := 75000;
-            Caption := 'Rechnung vom';
-            if not Insert then;
-        end;
+
+        TemplateFieldCaption.Init;
+        TemplateFieldCaption."Template No." := 'EINKAUF-DE';
+        TemplateFieldCaption.Type := 0;
+        TemplateFieldCaption.Code := 'DOCDATE';
+        TemplateFieldCaption."Line No." := 75000;
+        TemplateFieldCaption.Caption := 'Rechnung vom';
+        if not TemplateFieldCaption.Insert then;
 
         if CDCTemplateField.Get('EINKAUF-DE', CDCTemplateField.Type::Line, 'DISCAMOUNT') then begin
             CDCTemplateField."Field Name" := 'Zeilenrabatt';

@@ -1,4 +1,4 @@
-pageextension 63010 "DCADV DC Demo Role Center" extends "CDC Doc. Capture Role Center"
+pageextension 63010 "PTE DC Demo Role Center" extends "CDC Doc. Capture Role Center"
 {
     actions
     {
@@ -9,7 +9,7 @@ pageextension 63010 "DCADV DC Demo Role Center" extends "CDC Doc. Capture Role C
                 Caption = 'Zurücksetzen';
                 Image = ResetStatus;
                 Promoted = true;
-                RunObject = Codeunit "DCADV DC Demo Setup";
+                RunObject = Codeunit "PTE DC Demo Setup";
                 ApplicationArea = All;
             }
         }
