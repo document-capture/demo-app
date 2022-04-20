@@ -2,7 +2,7 @@
   "id": "391517ec-0bec-412c-a7d2-2df476b7e77f",
   "name": "Continia Partner Demo App",
   "publisher": "Continia Software GmbH",
-  "version": "1.0.0.0",
+  "version": "1.0.0.1",
   "brief": "",
   "description": "App for optimized Document Capture demonstrations",
   "privacyStatement": "",
@@ -12,18 +12,6 @@
   "logo": "",
   "target": "OnPrem",
   "dependencies": [
-    {
-      "id": "63ca2fa4-4f03-4f2b-a480-172fef340d3f",
-      "publisher": "Microsoft",
-      "name": "System Application",
-      "version": "18.0.0.0"
-    },
-    {
-      "id": "437dbf0e-84ff-417a-965d-ed2bb9650972",
-      "publisher": "Microsoft",
-      "name": "Base Application",
-      "version": "18.0.0.0"
-    },
     {
       "id": "4b915d7e-c02a-435f-85ab-649086c1e002",
       "name": "Continia Core",

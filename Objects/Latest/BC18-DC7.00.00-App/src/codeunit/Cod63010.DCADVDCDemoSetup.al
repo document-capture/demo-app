@@ -8,12 +8,16 @@ codeunit 63010 "DCADV DC Demo Setup"
         if not Confirm(Text001, false) then
             Error('Zurücksetzen wurde abgebrochen, es wurden keine Daten geändert!');
 
-        if not DemoSetup.Get then begin
-            CreateDemoSetup;
-            CreateDemoDocuments;
-        end;
+        if not DemoSetup.Get then
+            error('You have not setup the demo app and therefor cannot reset the data.');
 
         //Ungebuchte Belege löschen
+        if DemoSetup."Reset Posting Entries" then begin
+            if (DemoSetup."Value Entry No." = 0) or (DemoSetup."Det. Vend. Ledg. Entry No." = 0) then
+                Error('You have not configured the posting entries that shouldn''t be deleted!');
+            DeleteEntries();
+        end;
+
         DeleteDocuments();
 
         // Posten löschen/aufräumen
@@ -36,7 +40,7 @@ codeunit 63010 "DCADV DC Demo Setup"
         UpdateDemoDocuments();
 
         //Prepare Demo
-        PrepareDemo;
+        PrepareDemo();
 
         // Verkauf
         DeleteSalesOrders();
@@ -484,6 +488,9 @@ codeunit 63010 "DCADV DC Demo Setup"
         lCopyDocMgt: Codeunit "Copy Document Mgt.";
         purchDocTypes: Enum "Purchase Document Type From";
     begin
+        // Create base documents first
+        CreateDemoDocuments();
+
         lToPurchLine.SetRange("Document Type", lToPurchLine."Document Type"::Order);
         lToPurchLine.SetRange("Document No.", '1003', '1005');
         if not lToPurchLine.IsEmpty then
@@ -788,6 +795,46 @@ codeunit 63010 "DCADV DC Demo Setup"
     local procedure CreateDemoSetup()
     var
         DemoSetup: Record "DCADV DC Demo Setup";
+        AllProfile: Record "All Profile";
+    begin
+        Clear(DemoSetup);
+        if not DemoSetup.Get() then
+            DemoSetup.Insert(true);
+
+        DemoSetup.Validate("Template Master  Path", 'https://raw.githubusercontent.com/document-capture/demo-app/main/DemoFiles/');
+
+        AllProfile.Init;
+        AllProfile.Validate(Scope, AllProfile.Scope::System);
+        AllProfile.Validate("Profile ID", 'CONTINIA-DEMO-CDC');
+        AllProfile.Validate(Description, 'Continia Document Capture Demo');
+        AllProfile.Validate("Role Center ID", 50000);
+        AllProfile.Validate("Default Role Center", true);
+        AllProfile.Insert;
+    end;
+
+    internal procedure ResetLastPostingEntries(var DemoSetup: Record "DCADV DC Demo Setup")
+    begin
+        DemoSetup."Purch. Rcpt. Header No." := '';
+        DemoSetup."Purch. Inv. Header No." := '';
+        DemoSetup."Purch. Cr. Memo Header No." := '';
+        DemoSetup."G/L Entry No." := 0;
+        DemoSetup."G/L VAT Entry Link No." := 0;
+        DemoSetup."Cust. Ledge Entry No." := 0;
+        DemoSetup."Det. Cust. Ledge Entry No." := 0;
+        DemoSetup."Item Ledge. Entry No." := 0;
+        DemoSetup."Vat Entry No." := 0;
+        DemoSetup."Item Appl. Entry No." := 0;
+        DemoSetup."Vend. Ledg. Entry No." := 0;
+        DemoSetup."Det. Vend. Ledg. Entry No." := 0;
+        DemoSetup."Value Entry No." := 0;
+        DemoSetup."Post. Value to GL Entry No." := 0;
+        DemoSetup."Purch Order No. From" := '';
+        DemoSetup."Purch Order No. To" := '';
+        //DemoSetup.Modify(true);
+    end;
+
+    internal procedure UpdateLastPostingEntries(var DemoSetup: Record "DCADV DC Demo Setup")
+    var
         PurchRcptHeader: Record "Purch. Rcpt. Header";
         PurchInvHeader: Record "Purch. Inv. Header";
         PurchCrMemoHeader: Record "Purch. Cr. Memo Hdr.";
@@ -802,66 +849,52 @@ codeunit 63010 "DCADV DC Demo Setup"
         ItemApplEntry: Record "Item Application Entry";
         ValueEntry: Record "Value Entry";
         PostValueEntryToGlEntry: Record "Post Value Entry to G/L";
-        AllProfile: Record "All Profile";
     begin
-        Clear(DemoSetup);
-        DemoSetup.Insert(true);
-
-        DemoSetup."Template Master  Path" := 'https://raw.githubusercontent.com/document-capture/demo-app/main/DemoFiles/';
-
-        if PurchRcptHeader.FindLast then
+        if PurchRcptHeader.FindLast() then
             DemoSetup."Purch. Rcpt. Header No." := PurchRcptHeader."No.";
 
-        if PurchInvHeader.FindLast then
+        if PurchInvHeader.FindLast() then
             DemoSetup."Purch. Inv. Header No." := PurchInvHeader."No.";
 
-        if PurchCrMemoHeader.FindLast then
+        if PurchCrMemoHeader.FindLast() then
             DemoSetup."Purch. Cr. Memo Header No." := PurchCrMemoHeader."No.";
 
-        if GLEntry.FindLast then begin
+        if GLEntry.FindLast() then begin
             DemoSetup."G/L Entry No." := GLEntry."Entry No.";
             DemoSetup."G/L VAT Entry Link No." := GLEntry."Entry No.";
         end;
 
-        if CustLedgeEntry.FindLast then
+        if CustLedgeEntry.FindLast() then
             DemoSetup."Cust. Ledge Entry No." := CustLedgeEntry."Entry No.";
 
-        if DetCustLedgeEntry.FindLast then
+        if DetCustLedgeEntry.FindLast() then
             DemoSetup."Det. Cust. Ledge Entry No." := DetCustLedgeEntry."Entry No.";
 
-        if ItemLedgerEntry.FindLast then
+        if ItemLedgerEntry.FindLast() then
             DemoSetup."Item Ledge. Entry No." := ItemLedgerEntry."Entry No.";
 
-        if VatEntry.FindLast then
+        if VatEntry.FindLast() then
             DemoSetup."Vat Entry No." := VatEntry."Entry No.";
 
-        if ItemApplEntry.FindLast then
+        if ItemApplEntry.FindLast() then
             DemoSetup."Item Appl. Entry No." := ItemApplEntry."Entry No.";
 
-        if VendLedgEntry.FindLast then
+        if VendLedgEntry.FindLast() then
             DemoSetup."Vend. Ledg. Entry No." := VendLedgEntry."Entry No.";
 
-        if DetVendLedgeEntry.FindLast then
+        if DetVendLedgeEntry.FindLast() then
             DemoSetup."Det. Vend. Ledg. Entry No." := DetVendLedgeEntry."Entry No.";
 
-        if ValueEntry.FindLast then
+        if ValueEntry.FindLast() then
             DemoSetup."Value Entry No." := ValueEntry."Entry No.";
 
-        if PostValueEntryToGlEntry.FindLast then
+        if PostValueEntryToGlEntry.FindLast() then
             DemoSetup."Post. Value to GL Entry No." := PostValueEntryToGlEntry."Value Entry No.";
 
         DemoSetup."Purch Order No. From" := '1003';
         DemoSetup."Purch Order No. To" := '1005';
 
-        DemoSetup.Modify(true);
-
-        AllProfile.Init;
-        AllProfile.Validate(Scope, AllProfile.Scope::System);
-        AllProfile.Validate("Profile ID", 'CONTINIA-DEMO-CDC');
-        AllProfile.Validate(Description, 'Continia Document Capture Demo');
-        AllProfile.Validate("Role Center ID", 50000);
-        AllProfile.Validate("Default Role Center", true);
-        AllProfile.Insert;
+        //DemoSetup.Modify(true);
 
         Message('Ggf. müssen noch die Benutzer und das Genehmigungsverfahren eingerichtet werden!');
     end;

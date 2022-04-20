@@ -101,6 +101,17 @@ table 63010 "DCADV DC Demo Setup"
         {
             Caption = 'Reset posting entries';
             DataClassification = CustomerContent;
+            trigger OnValidate()
+            var
+                DemoMgt: Codeunit "DCADV DC Demo Setup";
+            begin
+                if ("Reset Posting Entries" = true) and (xRec."Reset Posting Entries" = false) then
+                    DemoMgt.UpdateLastPostingEntries(Rec);
+
+                if (Rec."Reset Posting Entries" = false) and (xRec."Reset Posting Entries" = true) then
+                    if Confirm('Do you want to reset the stored posting entries values?', false) then
+                        DemoMgt.ResetLastPostingEntries(Rec);
+            end;
         }
         field(51; "Delete absence sh. approvals"; Boolean)
         {
